@@ -43,7 +43,7 @@ const joinChatRoom = async () => {
         const data = new FormData()
         data.append('url', chatWindowUrl)
 
-        await fetch(`support/create-room/${chatRoomId}/`, {
+        await fetch(`/support/create-room/${chatRoomId}/`, {
             method: 'POST',
             body: data
         })
