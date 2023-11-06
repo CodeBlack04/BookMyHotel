@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+
+{% block content %}
+<h2 class="mb-8 text-center text-2xl font-semibold">Hotels</h2>
+
+<div class="flex h-screen gap-4">
+    <div class="w-1/4 p-4 bg-gray-700 overflow-y-auto rounded-xl">
+        <!-- Filter Content Goes Here -->
+        Filter
+    </div>
+
+    <div class="w-3/4 flex flex-col gap-4 overflow-y-auto rounded-xl">
+        {% for hotel in hotels %}
+            <div class="p-4 rounded-xl p-4 bg-gray-700 flex items-center gap-4">
+                
+                <div class="w-2/5 h-60 bg-white rounded-lg overflow-hidden">
+                    <img src="{{ hotel.image.url }}" alt="{{hotel.hotel_name}}" class="w-full h-full object-cover">
+                </div>
+
+                <div class="w-3/5 h-full flex flex-col items-center justify-around bg-gray-800 rounded-xl">
+
+                    <div class="w-full p-4 text-2xl font-semibold">{{ hotel.hotel_name }}</div>
+                
+                    <p class="w-full p-4 ">Deals starting from ...</p>
+
+                    <div class="w-full p-4 flex justify-center items-center">
+                        <a href="" class="mt-4 inline-block py-2 px-6 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700">View Deals</a>
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- <div class="">
+    <h2 class="mb-8 text-center text-2xl font-semibold">Hotels</h2>
+
+    <div class="p-4 rounded-xl flex gap-4 bg-rose-700">
+        <div class="w-1/4 h-screen bg-rose-300 rounded-xl">
+            Filter
+        </div>
+        
+        
+        <div class="w-3/4 flex flex-col justify-center gap-4">
+        {% for hotel in hotels %}
+            <div class="p-4 rounded-xl grid grid-rows-3 grid-flow-col gap-4 bg-rose-400">
+                <div class="bg-rose-300 row-span-3 rounded-xl">
+                    <img src="" alt="">
+                </div>
+
+                <div class="bg-rose-300 p-4 col-span-2 rounded-xl">{{hotel.hotel_name}}</div>
+
+                <div class="p-4 flex flex-col items-center justify-center bg-rose-300 row-span-2 col-span-2 rounded-xl">
+                    <p>Deals starting from ...</p>
+
+                    <div class="flex justify-between items-center gap-4">
+                        <a href="" class="mt-4 inline-block py-2 px-6 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700">View Deals</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div> -->
+{% endblock %}
