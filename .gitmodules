@@ -1,0 +1,9 @@
+[submodule "myauth"]
+	path = myauth
+	url = git@github.com:CodeBlack04/myauth-email-django.git
+[submodule "core"]
+	path = core
+	url = git@github.com:CodeBlack04/core-django.git
+[submodule "support"]
+	path = support
+	url = git@github.com:CodeBlack04/support-django.git
