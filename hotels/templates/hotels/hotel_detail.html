@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 
 {% block title %}{{ title }}{% endblock %}
@@ -29,7 +30,7 @@
     <!-- Sliding photos section -->
     <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <!-- Slider -->
-        <div id="slider" class="flex overflow-hidden relative h-[500px] rounded-xl">
+        <div id="slider" class="h-[450px] flex overflow-hidden relative rounded-xl">
             <!-- Foreach loop for displaying hotel images -->
             {% for image in hotel.images.all %}
             <div class="slide min-w-full flex-shrink-0">
@@ -47,7 +48,7 @@
 
 
     <!-- Room list section -->
-    <div class="w-full flex flex-col gap-4 overflow-y-auto rounded-xl">
+    <div class="w-11/12 mx-auto flex flex-col gap-4 overflow-y-auto rounded-xl">
         <!-- Repeat this block for each room -->
         {% for room in hotel.rooms.all %}
         <div class="bg-gray-700 flex items-center gap-4 p-4 rounded-xl">
@@ -75,7 +76,7 @@
                 </div>
 
                 <div class="px-4 py-2">
-                    <a href="#" class="inline-block py-2 px-4 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition ease-in-out duration-300">
+                    <a href="{% url 'hotels:hotel-room-detail' room.id %}" class="inline-block py-2 px-4 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition ease-in-out duration-300">
                         Details
                     </a>
                 </div>
@@ -89,60 +90,5 @@
 
 
 {% block scripts %}
-<script>
-    let slides = document.querySelectorAll('.slide');
-    let dots = document.querySelectorAll('.dot');
-    let currentIndex = 0; // Starting index
-
-    function showSlides(index) {
-        // First make all slides transparent and remove 'active' class from dots
-        slides.forEach((slide, ind) => {
-            slide.style.opacity = '0';
-            dots[ind].classList.replace('bg-gray-800', 'bg-white');
-        });
-
-        // Make the current slide visible
-        slides[index].style.opacity = '1';
-        dots[index].classList.replace('bg-white', 'bg-gray-800');
-    }
-
-    
-    function currentSlide(index) {
-        showSlides(index);
-        currentIndex = index;
-        resetInterval();
-    }
-
-    function nextSlide() {
-        currentIndex++;
-
-        if (currentIndex >= slides.length) {
-            currentIndex = 0
-        };
-
-        if (currentIndex < 0) currentIndex = slides.length - 1;
-        
-        showSlides(currentIndex);
-        console.log(currentIndex);
-    }
-
-    // Reset the interval
-    function resetInterval() {
-        clearInterval(slideInterval);
-        slideInterval = setInterval(nextSlide, 5000);
-    }
-
-    // Automatic slideshow
-    let slideInterval = setInterval(nextSlide, 5000);
-
-    showSlides(currentIndex); // Initialize the slider
-
-    // Optional: Preload images if you have a large set of images
-    window.onload = () => {
-        for (let i = 0; i < slides.length; i++) {
-            const img = new Image();
-            img.src = slides[i].getElementsByTagName('img')[0].src;
-        }
-    };
-</script>
+    <script src="{% static 'js/slideshow.js' %}"></script>
 {% endblock %}

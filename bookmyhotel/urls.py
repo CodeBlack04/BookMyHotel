@@ -30,4 +30,5 @@ urlpatterns = [
     path('support/', include('support.urls')),
 
     path('hotels/', include('hotels.urls')),
+
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
