@@ -8,18 +8,34 @@
 <h2 class="mb-8 text-center text-2xl font-semibold">Hotels</h2>
 
 <div class="flex h-screen gap-4">
-    <div class="w-1/4 p-4 bg-gray-700 overflow-y-auto rounded-xl">
+    <div class="w-1/4 p-4 bg-gray-700 flex flex-col justify-start items-center rounded-xl">
         <!-- Filter Content Goes Here -->
-        Filter
+        <h1 class="text-center text-xl mt-4 mb-6">Filter</h1>
+        <form method="get" action=".">
+            <input name="query" value="{{query}}" type="text" class="w-full py-3 px-4 bg-gray-300 text-black border rounded-xl" placeholder="Search for an item...">
+            <button class="mt-5 mb-5 py-2 px-4 text-lg bg-emerald-600 rounded-xl hover:bg-emerald-700">Search</button>
+        </form>
+
+        <hr class="w-full">
+
+        <a href="{% url 'hotels:hotels' %}" class="mb-5 mt-10 py-2 px-4 text-lg bg-emerald-600 rounded-xl hover:bg-emerald-700">Clear Filter</a>
     </div>
 
     <div class="w-3/4 flex flex-col gap-4 overflow-y-auto rounded-xl">
         {% for hotel in hotels %}
             <div class="p-4 rounded-xl p-4 bg-gray-700 flex items-center gap-4">
                 
+                {% with hotel.images.all as images %}
+                {% if images %}
                 <div class="w-2/5 h-60 bg-white rounded-lg overflow-hidden">
-                    <img src="{{ hotel.image.url }}" alt="{{hotel.hotel_name}}" class="w-full h-full object-cover">
+                    <img src="{{ images.0.image.url }}" alt="{{hotel.hotel_name}}" class="w-full h-full object-cover">
                 </div>
+                {% else %}
+                <div class="w-2/5 h-60 bg-gray-800 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-500">No image available</span>
+                </div>
+                {% endif %}
+                {% endwith %}
 
                 <div class="w-3/5 h-full flex flex-col items-center justify-around bg-gray-800 rounded-xl">
 
@@ -28,7 +44,7 @@
                     <p class="w-full p-4 ">Deals starting from ...</p>
 
                     <div class="w-full p-4 flex justify-center items-center">
-                        <a href="" class="mt-4 inline-block py-2 px-6 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700">View Deals</a>
+                        <a href="{% url 'hotels:hotel-details' hotel.id %}" class="mt-4 inline-block py-2 px-6 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700">View Deals</a>
                     </div>
 
                 </div>

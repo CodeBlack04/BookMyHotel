@@ -20,10 +20,19 @@ class Facility(BaseModel):
 
 class Hotel(BaseModel):
     hotel_name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to= 'hotel_images', blank=True, null=True)
 
     def __str__(self):
         return self.hotel_name
+    
+class HotelImage(BaseModel):
+    hotel = models.ForeignKey(Hotel, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='hotel_images')
+
+    def __str__(self):
+        return f"Image for {self.hotel.hotel_name}"
+    
+
+    
 
 class HotelRoom(BaseModel):
     hotel = models.ForeignKey(Hotel, related_name='rooms', on_delete=models.CASCADE)
@@ -33,6 +42,13 @@ class HotelRoom(BaseModel):
 
     def __str__(self):
         return f'{self.room_number} at {self.hotel.hotel_name}'
+    
+class HotelRoomImage(BaseModel):
+    hotel_room = models.ForeignKey(HotelRoom, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='hotel_room_images')
+
+    def __str__(self):
+        return f"Image for room {self.hotel_room.room_number} at {self.hotel_room.hotel.hotel_name}"
 
 
 
