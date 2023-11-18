@@ -43,7 +43,16 @@ function resetInterval() {
 // Automatic slideshow
 let slideInterval = setInterval(nextSlide, 5000);
 
+
+// Your existing window.onload code
+dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+        currentSlide(index)
+    });
+});
+
 showSlides(currentIndex); // Initialize the slider
+
 
 // Optional: Preload images if you have a large set of images
 window.onload = () => {

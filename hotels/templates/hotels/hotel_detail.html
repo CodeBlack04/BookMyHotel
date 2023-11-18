@@ -25,70 +25,91 @@
 {% block content %}
 <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
 
-    <h1 class="text-center text-2xl font-semibold">{{hotel.hotel_name}}</h1>
+    <h1 class="mb-6 text-center text-2xl font-semibold">{{hotel.hotel_name}}</h1>
 
     <!-- Sliding photos section -->
-    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Slider -->
-        <div id="slider" class="h-[450px] flex overflow-hidden relative rounded-xl">
+        <div id="slider" class="h-[350px] md:h-[450px] flex overflow-hidden shadow-2xl relative rounded-xl border-8 border-slate-900">
             <!-- Foreach loop for displaying hotel images -->
-            {% for image in hotel.images.all %}
-            <div class="slide min-w-full flex-shrink-0">
-                <img src="{{ image.image.url }}" class="w-full h-full object-cover" alt="{{ hotel.hotel_name }}">
-            </div>
-            {% endfor %}
+            {% if hotel.images.all %}
+                {% for image in hotel.images.all %}
+                <div class="slide min-w-full flex-shrink-0">
+                    <img src="{{ image.image.url }}" class="w-full h-full object-cover" alt="{{ hotel.hotel_name }}">
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="w-full bg-gray-800 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-500">No image available</span>
+                </div>
+            {% endif %}
         </div>
         <!-- Dots container -->
         <div class="dots-container flex justify-center p-4">
             {% for image in hotel.images.all %}
-            <span class="dot cursor-pointer rounded-full h-3 w-3 mx-1 mb-1 bg-white inline-block" onclick="currentSlide({{ forloop.counter0 }})"></span>
+            <span class="dot cursor-pointer rounded-full h-3 w-3 mx-1 mb-1 bg-white inline-block"></span>
             {% endfor %}
         </div>
     </div>
 
+    <hr class="w-3/5 mx-auto border-4 rounded-full border-slate-800">
 
     <!-- Room list section -->
-    <div class="w-11/12 mx-auto flex flex-col gap-4 overflow-y-auto rounded-xl">
-        <!-- Repeat this block for each room -->
-        {% for room in hotel.rooms.all %}
-        <div class="bg-gray-700 flex items-center gap-4 p-4 rounded-xl">
+    <h1 class="mt-6 mb-6 text-center text-2xl font-semibold">Rooms</h1>
 
-            {% with room.images.all as images %}
-            {% if images %}
-            <div class="w-1/3 h-60 bg-white rounded-lg overflow-hidden">
-                <img src="{{ images.0.image.url }}" alt="{{ room.room_number }}" class="w-full h-full object-cover">
-            </div>
-            {% else %}
-            <div class="w-1/3 h-60 bg-gray-800 rounded-lg flex items-center justify-center">
-                <span class="text-gray-500">No image available</span>
-            </div>
-            {% endif %}
-            {% endwith %}
+    {% include 'hotels/room_list.html' %}
 
-            <div class="w-2/3 flex flex-col bg-gray-800 rounded-xl">
+    <hr class="w-3/5 mx-auto border-4 rounded-full border-slate-800">
 
-                <div class="px-4 py-2">
-                    <h3 class="text-xl font-semibold text-white">Room Number: {{ room.room_number }}</h3>
-                </div>
+    <!-- Facilities section -->
+    <h1 class="mt-6 mb-6 text-center text-2xl font-semibold">Our Facilities</h1>
 
-                <div class="px-4 py-2 flex-grow">
-                    <p class="text-emerald-500">Price: {{ room.price }}</p>
-                </div>
+    {% include 'hotels/facilities.html' %}
 
-                <div class="px-4 py-2">
-                    <a href="{% url 'hotels:hotel-room-detail' room.id %}" class="inline-block py-2 px-4 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition ease-in-out duration-300">
-                        Details
-                    </a>
-                </div>
+    <hr class="w-3/5 mx-auto border-4 rounded-full border-slate-800">
 
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+    <!-- Location section -->
+    <h1 class="mt-6 mb-6 text-center text-2xl font-semibold">Location</h1>
+
+    <div id="map" class="w-11/12 mb-10 mx-auto h-[400px] rounded-xl bg-slate-800 shadow-2xl"></div>
+
+    <hr class="w-3/5 mx-auto border-4 rounded-full border-slate-800">
+
+    <!-- Rate Hotel section -->
+    <h1 class="mt-6 mb-6 text-center text-2xl font-semibold">Rate {{ hotel.hotel_name }}</h1>
+
+    {% include 'hotels/rate_hotel.html' %}
+
+    <hr class="w-3/5 mx-auto border-4 rounded-full border-slate-800">
+
+    <!-- Reviews section -->
+    <h1 class="mt-6 mb-6 text-center text-2xl font-semibold">Reviews</h1>
+
+    {% include 'hotels/review_list.html' %}
+
+    <hr class="w-3/5 mx-auto border-4 rounded-full border-slate-800">
+
+    
 </div>
 {% endblock %}
 
 
 {% block scripts %}
-    <script src="{% static 'js/slideshow.js' %}"></script>
+<script src="{% static 'js/slideshow.js' %}"></script>
+
+<!-- <script>
+    function initMap() {
+        var hotelLocation = {lat: hotel.latitude, lng: hotel.longitude};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: hotelLocation
+        });
+        var marker = new google.maps.Marker({
+            position: hotelLocation,
+            map: map
+        });
+    }
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script> -->
 {% endblock %}

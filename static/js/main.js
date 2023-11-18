@@ -70,7 +70,7 @@ const joinChatRoom = async () => {
             onChatMessage(JSON.parse(e.data))
         }
     } else {
-        window.location.href = 'auth/login/'
+        window.location.href = '/auth/login/'
     }
 
     scrollToBottom()
